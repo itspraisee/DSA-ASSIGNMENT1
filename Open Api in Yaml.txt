@@ -1,0 +1,121 @@
+openapi: "3.0.0"
+info:
+  version: "1.0.0"
+  title: "Faculty API"
+  description: "API for managing staff, offices, and courses in the Faculty of Computing and Informatics."
+paths:
+  /lecturers:
+    get:
+      summary: "Retrieve a list of all lecturers."
+      responses:
+        200:
+          description: "List of all lecturers."
+    post:
+      summary: "Add a new lecturer."
+      requestBody:
+        description: "Lecturer details."
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Lecturer"
+      responses:
+        201:
+          description: "Lecturer added successfully."
+  /lecturers/{staff_number}:
+    get:
+      summary: "Retrieve details of a specific lecturer by staff number."
+      parameters:
+        - name: staff_number
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: "Details of the specified lecturer."
+        404:
+          description: "Lecturer not found."
+    put:
+      summary: "Update an existing lecturer's information."
+      parameters:
+        - name: staff_number
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: "Updated lecturer details."
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Lecturer"
+      responses:
+        200:
+          description: "Lecturer information updated successfully."
+        404:
+          description: "Lecturer not found."
+    delete:
+      summary: "Delete a lecturer's record by staff number."
+      parameters:
+        - name: staff_number
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: "Lecturer deleted successfully."
+        404:
+          description: "Lecturer not found."
+  /lecturers/courses/{course_code}:
+    get:
+      summary: "Retrieve all lecturers that teach a certain course."
+      parameters:
+        - name: course_code
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: "List of lecturers teaching the specified course."
+        404:
+          description: "Course not found."
+  /offices/{office_number}/lecturers:
+    get:
+      summary: "Retrieve all lecturers that sit in the same office."
+      parameters:
+        - name: office_number
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: "List of lecturers in the specified office."
+        404:
+          description: "Office not found."
+components:
+  schemas:
+    Lecturer:
+      type: object
+      properties:
+        staff_number:
+          type: string
+          description: "Unique staff number of the lecturer."
+        office_number:
+          type: string
+          description: "Office number of the lecturer."
+        staff_name:
+          type: string
+          description: "Name of the lecturer."
+        title:
+          type: string
+          description: "Title of the lecturer."
+        courses:
+          type: array
+          items:
+            type: string
+          description: "List of courses taught by the lecturer."
