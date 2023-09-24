@@ -6,9 +6,6 @@ type LibraryServiceClient record {
 
 LibraryServiceClient ep = check new ("http://localhost:9090");
 
-type Course record {
-    
-};
 
     // Implement user interaction and make gRPC calls as needed.
     // For example, you can use io:println and io:readLine for user input and feedback.
