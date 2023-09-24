@@ -15,10 +15,9 @@ type Course record {
 };
 
 public function main() {
-    // Create a new HTTP client endpoint.
+
     http:Client facultyClient = new http:Client("http://localhost:8080");
 
-    // Use the client to send requests to the Faculty API.
     var response = facultyClient->get("/faculty/lecturers");
     if (response is http:Response) {
         match response.getJsonArray() {
