@@ -1,0 +1,73 @@
+
+
+type Department {
+  id: ID!
+  name: String!
+  objectives: [Objective]!
+  employees: [Employee]!
+}
+
+type Objective {
+  id: ID!
+  description: String!
+  weightage: Float!
+}
+
+type KPI {
+  id: ID!
+  description: String!
+  unit: String!
+  score: Float
+}
+
+type Employee {
+  id: ID!
+  name: String!
+  department: Department!
+  supervisor: Supervisor!
+  kpis: [KPI]!
+}
+
+type Supervisor {
+  id: ID!
+  name: String!
+  employees: [Employee]!
+}
+
+type Query {
+  getDepartment(id: ID!): Department
+  getObjective(id: ID!): Objective
+  getKPI(id: ID!): KPI
+  getEmployee(id: ID!): Employee
+  getSupervisor(id: ID!): Supervisor
+}
+
+type Mutation {
+  createDepartment(name: String!): Department
+  createObjective(departmentId: ID!, description: String!, weightage: Float!): Objective
+  createKPI(employeeId: ID!, description: String!, unit: String!): KPI
+  assignEmployeeToSupervisor(employeeId: ID!, supervisorId: ID!): Employee
+  gradeKPI(kpiId: ID!, score: Float): KPI
+}
+
+type AuthPayload {
+  token: String
+  user: Employee
+}
+
+type User {
+  id: ID!
+  username: String!
+  role: String!
+}
+
+type AuthMutation {
+  signup(username: String!, password: String!, role: String!): AuthPayload
+  login(username: String!, password: String!): AuthPayload
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+}
+
